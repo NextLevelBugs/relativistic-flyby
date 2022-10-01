@@ -6,5 +6,9 @@
         "marginRight":2,
         "height":90,
         "width":10
-    }
+    },
+    "target":[
+        {"name":"Milkyway", "img":"img/prev/milky.png"},
+        {"name":"Earth", "img":"img/prev/earth.png"}
+    ]
 }

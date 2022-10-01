@@ -25,15 +25,32 @@ class Menu {
   render(){
     // only draw if we have read the json config
     if(this.built){
+
+      const xO = this.json.style.marginLeft*this.wunit;
+      const yO = this.hunit*this.json.style.marginTop;
+      const w = this.wunit*this.json.style.width;
+      const h = this.hunit*this.json.style.height;
+
+      // boundary
       fill(0);
       stroke(255);
-      rect(this.json.style.marginLeft*this.wunit,this.hunit*this.json.style.marginTop,this.wunit*this.json.style.width,this.hunit*this.json.style.height,20);
+      rect(xO,yO,w,h,20);
       noStroke();
+
+      // planet/target list
+      fill(0);
+      stroke(255);
+      rect(xO+this.wunit,yO+this.hunit,w-2*this.wunit,h-2*this.hunit,20)
+      noStroke();
+
     }
   }
 
   // returns px width of menu including left and right margin
   getFullWidth(){
+    if(!this.built){
+      return 0;
+    }
     return this.wunit*(this.json.style.marginLeft+this.json.style.marginRight+this.json.style.width);
   }
 
