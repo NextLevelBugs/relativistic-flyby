@@ -1,0 +1,10 @@
+{
+    "title":"menu",
+    "style":{
+        "marginTop":5,
+        "marginLeft":2,
+        "marginRight":2,
+        "height":90,
+        "width":10
+    }
+}
