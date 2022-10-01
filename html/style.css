@@ -1,0 +1,37 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: rgb(0, 0, 0);
+}
+
+h1 {
+  color: white;
+  font-size: 8vh;
+  text-align: right;
+  margin-right: 10vw;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+h2 {
+  color: rgb(149, 225, 248);
+  font-size: 4vh;
+  text-align: left;
+  margin-left: 10vw;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+p {
+  color: white;
+  font-family: Helvetica, Arial, sans-serif;
+  text-align: center;
+  margin-right: 10vw;
+  margin-left: 10vw;
+}
+
+canvas {
+  display: block;
+}
+
+.renderbox {
+  height: 80vh;
+}
