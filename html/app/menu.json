@@ -8,7 +8,9 @@
         "width":10
     },
     "target":[
-        {"name":"Milkyway", "img":"img/prev/milky.png"},
-        {"name":"Earth", "img":"img/prev/earth.png"}
+        {"name":"Milkyway", "img":"img/prev/Milkyway.png"},
+        {"name":"Earth", "img":"img/prev/Earth.png"},
+        {"name":"Saturn", "img":"img/prev/Saturn.png"},
+        {"name":"The Moon", "img":"img/prev/Moon.png"}
     ]
 }
