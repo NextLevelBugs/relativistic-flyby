@@ -10,6 +10,7 @@ h1 {
   text-align: right;
   margin-right: 5vw;
   font-family: Helvetica, Arial, sans-serif;
+  margin-top: 0;
 }
 
 h2 {
@@ -33,5 +34,5 @@ canvas {
 }
 
 .renderbox {
-  height: 80vh;
+  height: 87vh;
 }

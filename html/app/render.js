@@ -48,7 +48,7 @@ class Menu {
       const h = this.hunit*this.json.style.height;
 
       // boundary
-      fill(0);
+      fill(0,0,0,200);
       stroke(255);
       rect(xO,yO,w,h,10);
       noStroke();
@@ -62,11 +62,11 @@ class Menu {
       noStroke();
       const itemHeight = 4*this.hunit;
       this.itemHeight = itemHeight;
-      let yoff = yO+10*this.hunit;
+      let yoff = yO+8*this.hunit;
       let xoff = xO+2.5*this.wunit;
       fill(180);
       textSize(2*this.hunit);
-      text("objects to fly by",xO+0.5*this.wunit,yoff);
+      text("motive to fly by",xO+0.5*this.wunit,yoff);
       fill(255);
       for (let i = 0; i<this.targetItems; i++){
         // check if image is loaded yet
@@ -106,7 +106,7 @@ class Menu {
     if((xO < x) && (xO+w > x) && (yO < y) && (yO+h > y)){
       // check if any highlighting is necessary for items in the target list
       const lxO = xO+0.5*this.wunit;
-      const lyO = yO+10*this.hunit;
+      const lyO = yO+8*this.hunit;
       const lw = w-this.wunit;
       const lh = this.itemHeight*this.targetItems+0.5*this.itemHeight-this.hunit;
       if((lxO < x) && (lxO+lw > x) && (lyO < y) && (lyO+lh > y)){
@@ -144,15 +144,40 @@ class Menu {
 
 }
 
+// function to nicely display the rendered image
+function displayRenderedImage(){
+
+  // draw top part normal
+  image(img,0,0,width,height);
+  //background(255);
+
+  // TODO: Improve performance.. this is quite inefficient
+  // draw the lower 10 % with a gradient in opacity by overlaying a dark rect
+  // (yes this is a weird solution but its very fast..)
+  const startfrac = 0.92;
+  const steps = 50;
+  const dheight = (1.0-startfrac)*height/steps;
+  const alpha = 0.94;
+  let transparancy = 255;
+  for (let i = 0; i<steps;i++){
+    transparancy *= alpha;
+    fill(0,0,0,255-transparancy);
+    rect(0,1+int(startfrac*height+i*dheight),width,int(startfrac*height+(i+1)*dheight)-int(startfrac*height+i*dheight))
+  }
+
+}
+
 // the menu to be used for user input
 let menu;
+// the rendered background image
+let img;
 
 function preload(){
   img = loadImage('img/deep_field.jpg');
 }
 
 function setup() {
-  let cv = createCanvas(windowWidth, windowHeight*0.8);
+  let cv = createCanvas(windowWidth, windowHeight*0.87);
   cv.position(0,0);
   cv.parent("render");
   menu = new Menu("app/menu.json");
@@ -162,14 +187,11 @@ function setup() {
 function draw() {
   background(0);
 
+  // draw the rendered image
+  displayRenderedImage();
+
   // draw the menu
   menu.render();
-
-  // get region where we want to render the view
-  const minW = menu.getFullWidth();
-
-  fill(255,0,0);
-  image(img,minW,0,width-minW,height);
 
 }
 
