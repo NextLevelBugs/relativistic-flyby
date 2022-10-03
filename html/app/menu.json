@@ -5,12 +5,12 @@
         "marginLeft":2,
         "marginRight":2,
         "height":90,
-        "width":10
+        "width":12
     },
     "target":[
-        {"name":"Milkyway", "img":"img/prev/Milkyway.png"},
-        {"name":"Earth", "img":"img/prev/Earth.png"},
-        {"name":"Saturn", "img":"img/prev/Saturn.png"},
-        {"name":"The Moon", "img":"img/prev/Moon.png"}
+        {"name":"Milkyway", "img":"img/prev/Milkyway.png","cache":"img/cache/Milkyway.jpg"},
+        {"name":"Earth", "img":"img/prev/Earth.png","cache":"img/cache/Earth.jpg"},
+        {"name":"The Moon", "img":"img/prev/Moon.png","cache":"img/cache/Moon.jpg"},
+        {"name":"Saturn", "img":"img/prev/Saturn.png","cache":"img/cache/Saturn.jpg"}
     ]
 }
