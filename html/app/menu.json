@@ -7,6 +7,10 @@
         "height":90,
         "width":12
     },
+    "lever":{
+        "height":10,
+        "width":2
+    },
     "target":[
         {"name":"Saturn", "img":"img/prev/Saturn.png","cache":"img/cache/Saturn.jpg"},
         {"name":"Milkyway", "img":"img/prev/Milkyway.png","cache":"img/cache/Milkyway.jpg"},

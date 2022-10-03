@@ -37,6 +37,10 @@ class Menu {
       this.dopplerY = this.hunit*(8+this.json.style.marginTop)+this.itemHeight*(this.targetItems+2.0);
       this.doppler = new OnOffSwitch((this.json.style.marginLeft+0.5)*this.wunit,this.dopplerY,dopplerSize,false);
 
+      // the lever/slidebar that allows adjustment of velocity
+      this.speedY = this.dopplerY+this.itemHeight*2.0;
+      this.speed = new Lever((this.json.style.marginLeft+0.5)*this.wunit,this.speedY,this.json.lever.width*this.wunit,this.json.lever.height*this.hunit,0,99);
+
       // mark the build as ready so we can draw
       this.built = true;
   
@@ -88,10 +92,26 @@ class Menu {
   
         // render the doppler switch
         this.doppler.render();
-        // and the text above it
+        // and the text beside it
         fill(180);
         textSize(2*this.hunit);
         text("Doppler Effect",xO+0.75*this.wunit+this.doppler.size,this.dopplerY+0.5*this.doppler.h+0.8*this.hunit);
+        fill(255);
+
+        // render the speed lever
+        this.speed.render();
+        // and text
+        noStroke();
+        fill(180);
+        textSize(2*this.hunit);
+        text("Velocity",this.speed.x+this.speed.w+2.5*this.wunit, this.speedY+2*this.hunit);
+        text("Light speed",this.speed.x+this.speed.w+1.5*this.wunit, this.speedY+this.speed.h-0.4*this.hunit);
+
+        fill(149, 225, 248);
+        textSize(4*this.hunit);
+        textAlign(RIGHT);
+        text(this.speed.val+" %",w+xO-2.8*this.wunit,this.speedY+0.5*this.speed.h+1.6*this.hunit)
+        textAlign(LEFT);
         fill(255);
 
       }
@@ -112,6 +132,8 @@ class Menu {
       // react to mouse hover on the switch
       this.doppler.hover(x,y);
 
+      // and the speed slider
+      this.speed.hover(x,y);
     
       const xO = this.json.style.marginLeft*this.wunit;
       const yO = this.hunit*this.json.style.marginTop;
@@ -170,6 +192,19 @@ class Menu {
 
     getBackground(){
         return this.cache.getImage(this.selection);
+    }
+
+    mousePressed(x,y){
+      // check if we need to adjust the speed
+      if(this.built){
+        this.speed.mousePressed(x,y);
+      }
+    }
+
+    mouseReleased(x,y){
+      if(this.built){
+        this.speed.mouseReleased(x,y);
+      }
     }
 
   }

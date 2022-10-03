@@ -59,3 +59,15 @@ function mouseClicked(){
   // check if we have to change some settings
   menu.mouseClick(mouseX,mouseY);
 }
+
+function mousePressed(){
+  menu.mousePressed(mouseX,mouseY);
+}
+
+function mouseReleased(){
+  menu.mouseReleased(mouseX,mouseY);
+}
+
+function mouseDragged(){
+  menu.mouseHover(mouseX,mouseY);
+}
