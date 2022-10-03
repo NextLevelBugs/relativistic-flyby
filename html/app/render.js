@@ -6,6 +6,7 @@ let img;
 // function to nicely display the rendered image
 function displayRenderedImage(){
 
+  noStroke();
   // draw background image
   if(menu.backgroundAvailable()){
     image(menu.getBackground(),0,0,width,height);

@@ -10,7 +10,7 @@ class Menu {
   
       this.highlight = -1;
       this.selection = 0;
-  
+
       fetch(uri)
       .then(res => res.json())
       .then(out =>
@@ -20,6 +20,8 @@ class Menu {
   
     buildFromJSON(json){
       this.json = json;
+
+      this.itemHeight = 4.5*this.hunit;
   
       // how many motives/items are there in the menu?
       this.targetItems = Object.keys(this.json.target).length;
@@ -29,6 +31,11 @@ class Menu {
       
       // also fetch the cached background images
       this.cache = new ImageCache(this.json.target,"cache");
+
+      // On off button for doppler effect
+      const dopplerSize = 45;
+      this.dopplerY = this.hunit*(8+this.json.style.marginTop)+this.itemHeight*(this.targetItems+2.0);
+      this.doppler = new OnOffSwitch((this.json.style.marginLeft+0.5)*this.wunit,this.dopplerY,dopplerSize,false);
 
       // mark the build as ready so we can draw
       this.built = true;
@@ -59,8 +66,7 @@ class Menu {
   
         // planet/target list
         noStroke();
-        const itemHeight = 4.5*this.hunit;
-        this.itemHeight = itemHeight;
+        const itemHeight = this.itemHeight;
         let yoff = yO+8*this.hunit;
         let xoff = xO+3.4*this.wunit;
         fill(180);
@@ -80,6 +86,14 @@ class Menu {
         }
         noStroke();
   
+        // render the doppler switch
+        this.doppler.render();
+        // and the text above it
+        fill(180);
+        textSize(2*this.hunit);
+        text("Doppler Effect",xO+0.75*this.wunit+this.doppler.size,this.dopplerY+0.5*this.doppler.h+0.8*this.hunit);
+        fill(255);
+
       }
     }
   
@@ -94,7 +108,11 @@ class Menu {
     // react to mouse hovering events
     // x,y: coordinates on screen
     mouseHover(x,y){
-  
+        
+      // react to mouse hover on the switch
+      this.doppler.hover(x,y);
+
+    
       const xO = this.json.style.marginLeft*this.wunit;
       const yO = this.hunit*this.json.style.marginTop;
       const w = this.wunit*this.json.style.width;
@@ -130,6 +148,9 @@ class Menu {
   
     // on mouse click
     mouseClick(x,y){
+      // react to clicks on the switch
+      this.doppler.click(x,y);
+
       // if we have a highlight and it is not the current selection, change that
       if( (this.highlight > -1) && (this.highlight<this.targetItems)){
         if(this.selection != this.highlight){

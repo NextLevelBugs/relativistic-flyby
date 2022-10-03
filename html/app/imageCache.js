@@ -1,4 +1,5 @@
 
+// this class fetches a list of images in the background and requests redraws when each image is available
 class ImageCache{
     // motives is an array of objects with key given by key, where cache refers to the image file to be loaded
     constructor(motives, key){
