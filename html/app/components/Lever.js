@@ -9,7 +9,7 @@ class Lever{
         this.min = minVal;
         this.max = maxVal;
         this.val = minVal;
-        this.wbar = 0.15*this.w;
+        this.wbar = 1.0*this.w;
         this.hovering = false;
         this.grabbed = false;
     }
@@ -18,13 +18,13 @@ class Lever{
         stroke(255);
         strokeWeight(1);
         noFill();
-        rect(this.x+0.5*(this.w-this.wbar),this.y,this.wbar,this.h,2);
+        rect(this.x+0.5*(this.w-this.wbar),this.y-0.25*this.wbar,this.wbar,this.h+0.5*this.wbar,2);
 
         if(this.hovering){
             strokeWeight(1.5);
         }
         const pos = this.y+this.h*(this.max-this.val)/(this.max-this.min)
-        rect(this.x,pos-0.25*this.wbar,this.w,0.5*this.wbar,5)
+        rect(this.x,pos-0.25*this.wbar,this.w,0.5*this.wbar,10)
         strokeWeight(1);
     }
 

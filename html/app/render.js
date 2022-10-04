@@ -35,8 +35,9 @@ function setup() {
   let cv = createCanvas(windowWidth, windowHeight*1.02);
   cv.position(0,0);
   cv.parent("render");
-  menu = new Menu("app/menu.json");
+  menu = new Menu("app/config/menu.json");
   noLoop();
+  const worker = new Worker("app/SRRayTracer.js");
 }
 
 function draw() {
