@@ -2,6 +2,8 @@
 let menu;
 // the rendered background image
 let img;
+// the Webworker to generate images
+const worker = new Worker("app/worker/SRRayTracer.js");
 
 // function to nicely display the rendered image
 function displayRenderedImage(){
@@ -35,14 +37,13 @@ function setup() {
   let cv = createCanvas(windowWidth, windowHeight*1.02);
   cv.position(0,0);
   cv.parent("render");
-  menu = new Menu("app/config/menu.json");
+  menu = new Menu("app/config/menu.json", worker);
+  worker.onmessage = menu.workerResult;
   noLoop();
-  const worker = new Worker("app/SRRayTracer.js");
 }
 
 function draw() {
   background(0);
-
   // draw the rendered image
   displayRenderedImage();
 
@@ -72,3 +73,4 @@ function mouseReleased(){
 function mouseDragged(){
   menu.mouseHover(mouseX,mouseY);
 }
+

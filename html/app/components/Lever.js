@@ -12,6 +12,7 @@ class Lever{
         this.wbar = 1.0*this.w;
         this.hovering = false;
         this.grabbed = false;
+        this.moved = false;
     }
 
     render(){
@@ -56,12 +57,23 @@ class Lever{
     }
 
     mouseReleased(x,y){
-        this.grabbed = false;
+        if(this.grabbed == true){
+            this.moved = true;
+            this.grabbed = false;
+        }
     }
 
     mousePressed(x,y){
         if(this.hovering){
             this.grabbed = true;
         }
+    }
+
+    wasMoved(){
+        const mv = this.moved;
+        if(this.moved){
+            this.moved = false;
+        }
+        return mv;
     }
 }

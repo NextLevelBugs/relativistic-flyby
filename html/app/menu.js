@@ -1,8 +1,8 @@
 
 // takes care of the interactive menu
 class Menu {
-    // gets a uri to a descriptive json file
-    constructor(uri){
+    // gets a uri to a descriptive json file and the web worker to do rendering
+    constructor(uri, worker){
       this.built = false;
   
       this.hunit = 0.01*height;
@@ -10,6 +10,8 @@ class Menu {
   
       this.highlight = -1;
       this.selection = 0;
+
+      this.worker = worker;
 
       fetch(uri)
       .then(res => res.json())
@@ -177,6 +179,8 @@ class Menu {
       if( (this.highlight > -1) && (this.highlight<this.targetItems)){
         if(this.selection != this.highlight){
           this.selection = this.highlight;
+          // we want the velocity to reset upon choosing a new motive
+          this.speed.val = 0;
           // request a redraw
           redraw();
         }
@@ -204,7 +208,21 @@ class Menu {
     mouseReleased(x,y){
       if(this.built){
         this.speed.mouseReleased(x,y);
+        if(this.speed.wasMoved()){
+          this.requestRender();
+        }
       }
+    }
+
+    requestRender(){
+      let rc = new Object();
+      rc.velocity = this.speed.val/100.0;
+      rc.motive = this.json.target[this.selection];
+      this.worker.postMessage([]);
+    }
+
+    workerResult(e){
+      console.log("Worker done.")
     }
 
   }
