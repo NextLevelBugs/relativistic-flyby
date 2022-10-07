@@ -13,6 +13,8 @@ class Menu {
 
       this.worker = worker;
 
+      this.existingRenderResults = false;
+
       fetch(uri)
       .then(res => res.json())
       .then(out =>
@@ -181,6 +183,8 @@ class Menu {
           this.selection = this.highlight;
           // we want the velocity to reset upon choosing a new motive
           this.speed.val = 0;
+          // we also dont have any existing render results after switching motives
+          this.existingRenderResults = false;
           // request a redraw
           redraw();
         }
@@ -195,7 +199,16 @@ class Menu {
     }
 
     getBackground(){
-        return this.cache.getImage(this.selection);
+      if(this.existingRenderResults){
+        // if we have already rendered something then show this instead of the cached image
+        if(this.doppler.state){
+          // doppler effect
+          return this.renderResults[1];
+        }else{
+          return this.renderResults[0];
+        }
+      }
+      return this.cache.getImage(this.selection);
     }
 
     mousePressed(x,y){
@@ -222,6 +235,9 @@ class Menu {
     }
 
     workerResult(e){
+      this.renderResults = e;
+      this.existingRenderResults = true;
+      redraw();
       console.log("Worker done.")
     }
 
