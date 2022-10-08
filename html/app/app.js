@@ -1,7 +1,5 @@
 // the menu to be used for user input
 let menu;
-// the rendered background image
-let img;
 // the Webworker to generate images
 const worker = new Worker("app/worker/SRRayTracer.js");
 
@@ -30,7 +28,6 @@ function displayRenderedImage(){
 }
 
 function preload(){
-  img = loadImage('img/cache/Saturn.jpg');
 }
 
 function setup() {
@@ -38,7 +35,12 @@ function setup() {
   cv.position(0,0);
   cv.parent("render");
   menu = new Menu("app/config/menu.json", worker);
-  worker.onmessage = menu.workerResult;
+  worker.onmessage = (event) => {
+    menu.workerResult(event);
+  };
+  worker.onerror = (event) => {
+    console.log('Error in rendering worker.');
+  }
   noLoop();
 }
 

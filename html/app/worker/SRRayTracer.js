@@ -9,6 +9,8 @@ class SRRayTracer{
     constructor(uri){
         this.operational = false;
 
+        this.operations = 0;
+
         fetch(uri)
         .then(res => res.json())
         .then(out =>
@@ -19,17 +21,18 @@ class SRRayTracer{
     buildFromJSON(json){
         this.json = json;
 
+        console.log("worker built.")
         // load textures we need for rendering
         // TODO
     }
 
     // get ad render context
     render(rc){
-        console.log("rendering..");
+        this.operations++;
     }
 
     result(){
-        return 42;
+        return [this.operations,this.operations+1];
     }
 }
 
@@ -38,10 +41,15 @@ const srRender = new SRRayTracer("../config/render.json");
 
 // what happens when we get a mesage
 function onMessage(e){
-    renderContext.motive = e["motive"];
-    renderContext.velocity = e["velocity"];
+    
+    renderContext.motive = e.data[0].motive;
+    renderContext.velocity = e.data[0].velocity;
+    renderContext.width = e.data[0].width;
+    renderContext.height = e.data[0].height;
     renderContext.pending = true;
+
     srRender.render(renderContext);
+
     // post the result back to the main thread
     postMessage(srRender.result());
 }

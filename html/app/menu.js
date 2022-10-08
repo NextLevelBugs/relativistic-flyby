@@ -199,12 +199,17 @@ class Menu {
     }
 
     getBackground(){
+      console.log(this.existingRenderResults);
       if(this.existingRenderResults){
         // if we have already rendered something then show this instead of the cached image
+        console.log("yff");
         if(this.doppler.state){
           // doppler effect
+          return this.cache.getImage(this.selection+2)
           return this.renderResults[1];
         }else{
+          // no doppler effect
+          return this.cache.getImage(this.selection+1)
           return this.renderResults[0];
         }
       }
@@ -228,17 +233,21 @@ class Menu {
     }
 
     requestRender(){
+      console.log("requesting render.")
       let rc = new Object();
       rc.velocity = this.speed.val/100.0;
-      rc.motive = this.json.target[this.selection];
-      this.worker.postMessage([]);
+      rc.motive = this.json.target[this.selection].name;
+      rc.width = width;
+      rc.height = height;
+      this.worker.postMessage([rc]);
     }
 
     workerResult(e){
-      this.renderResults = e;
+      this.renderResults = e.data;
       this.existingRenderResults = true;
+      console.log(this.existingRenderResults);
       redraw();
-      console.log("Worker done.")
+      console.log(this.existingRenderResults);
     }
 
   }
