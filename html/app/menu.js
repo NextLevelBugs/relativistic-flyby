@@ -229,7 +229,6 @@ class Menu {
     }
 
     requestRender(){
-      console.log("requesting render.")
       let rc = new Object();
       rc.velocity = this.speed.val/100.0;
       rc.motive = this.json.target[this.selection].name;
@@ -251,7 +250,6 @@ class Menu {
 
       this.renderResults[0].updatePixels();
       this.renderResults[1].updatePixels();
-
 
       this.existingRenderResults = true;
       redraw();
