@@ -31,6 +31,7 @@ function preload(){
 }
 
 function setup() {
+  console.log(pixelDensity());
   let cv = createCanvas(windowWidth, windowHeight*1.02);
   cv.position(0,0);
   cv.parent("render");
@@ -41,6 +42,8 @@ function setup() {
   worker.onerror = (event) => {
     console.log('Error in rendering worker.');
   }
+  console.log(width);
+  console.log(height);
   noLoop();
 }
 
