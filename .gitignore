@@ -24,3 +24,6 @@ node_modules/
 
 # ignoce mac .DS_STORE
 .DS_STORE
+
+# ignore ipython checkpoints
+doppler/.ipynb_checkpoints
