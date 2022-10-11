@@ -7,7 +7,7 @@
         {"key":"The Moon", "img":"img/render/Moon.png"}
     ],
     "stars":{
-        "number": 10000,
-        "alphaMax": 0.78
+        "number": 50000,
+        "alphaMax": 1.04
     }
 }
