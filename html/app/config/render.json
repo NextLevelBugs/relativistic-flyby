@@ -9,5 +9,10 @@
     "stars":{
         "number": 50000,
         "alphaMax": 1.04
+    },
+    "Saturn":{
+        "x0": 500,
+        "y0": 500,
+        "alphaMax": 0.56
     }
 }

@@ -158,23 +158,59 @@ class SRRayTracer{
     // renders a planet or other motive that is passing
     motive(name){
 
+        const info = this.json[name];
+
         const w = this.w;
         const h = this.h;
 
         const buf = this.noDopplerChannel;
         const bufd = this.DopplerChannel;
 
+        // calculate the pixel scale
+        const scale = 0.5*w/Math.tan(info.alphaMax);
+        // center
+        const cx = Math.round(w/2);
+        const cy = Math.round(h/2);
+        // center in rest frame
+        const cxr = info.x0;
+        const cyr = info.y0;
+
         for(let y = 0; y<h; y++){
             for(let x = 0; x<w; x++){
                 const idx = 4*(y*w+x);
-                if(  (x % 100 < 50) ^ (y % 100 < 50) ){
-                    buf[idx+1] = 255; 
-                    buf[idx+3] = 255;
-                    bufd[idx+2] = 255;
-                    bufd[idx+3] = 255;
+                
+                const dy = (y-cy);
+                const dx = (x-cx);
+                const d_over_s_2 = (dy*dy+dx*dx)/(scale*scale);
+
+                // calculate the angle wrt to the center (in the moving frame)
+                const cosThetaPrime = 1.0/Math.sqrt(1.0+d_over_s_2);
+                // vector direction wrt to center in moving frame
+                // now transform to rest frame
+                const cosTheta = (cosThetaPrime-this.v)/(this.v*cosThetaPrime+1);
+
+                // go back to pixel data
+                const d_over_s = Math.sqrt(d_over_s_2);
+                const l = Math.sqrt(1.0-cosTheta*cosTheta)/cosTheta;
+                const xrf = cxr+dx/d_over_s*l;
+                const yrf = cyr+dy/d_over_s*l;
+                
+                // TODO: make sure cosTheta > 0, otherwise black
+
+                if(  Math.sqrt((xrf-cxr)*(xrf-cxr)+(yrf-cyr)*(yrf-cyr)) % 100 < 50  ){
+                    if(cosTheta > 0){
+                        buf[idx+1] = 255; 
+                        buf[idx+3] = 255;
+                        buf[idx] = 255;
+                        buf[idx+2] = 255;
+                        bufd[idx+2] = 255;
+                        bufd[idx+3] = 255;
+                    }else{
+                        buf[idx] = 255;
+                        bufd[idx] = 255;
+                    }
                 }else{
                     buf[idx] = 255;
-                    buf[idx+3] = 255;
                 }
             }
         }
